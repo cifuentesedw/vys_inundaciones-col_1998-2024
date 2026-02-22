@@ -1,0 +1,5 @@
+outs:
+- md5: d79d44ce9da222f8a3dc6752a336e549
+  size: 14554769310
+  hash: md5
+  path: temperatura.csv

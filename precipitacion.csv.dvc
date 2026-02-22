@@ -1,0 +1,5 @@
+outs:
+- md5: 670de664e3395eb7edb4ae0a1a3b3eaf
+  size: 33430324968
+  hash: md5
+  path: precipitacion.csv

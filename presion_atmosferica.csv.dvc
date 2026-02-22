@@ -1,0 +1,5 @@
+outs:
+- md5: e50892cdb55c04353d7f6247a49c6d04
+  size: 5664470261
+  hash: md5
+  path: presion_atmosferica.csv
