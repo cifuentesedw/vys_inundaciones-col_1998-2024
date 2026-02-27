@@ -67,7 +67,6 @@ Los reportes originales son publicados en archivos anuales de formato `.xls`. Pa
 | `RECURSOS EJECUTADOS` | Recursos del FNGRD ejecutados (COP) | float |
 | `Otros` | Descripción del evento | string |
 
-
 ---
 
 ### 2. Dataset de Precipitación — IDEAM
@@ -142,6 +141,8 @@ Los reportes originales son publicados en archivos anuales de formato `.xls`. Pa
 | **Documentación** | https://www.dane.gov.co/files/investigaciones/divipola/divipola2007.pdf |
 | **Licencia** | Datos abiertos del Estado colombiano — CC BY-SA 4.0 |
 
+Tabla de referencia con los códigos de la División Político-Administrativa de Colombia (DANE). Permite cruzar el código DIVIPOLA del dataset con nombres oficiales de departamentos y municipios.
+
 ---
 
 ### 6. GeoJSON Municipios y Veredas
@@ -154,9 +155,20 @@ Los reportes originales son publicados en archivos anuales de formato `.xls`. Pa
 | **Tamaño** | ~19 MB |
 | **Licencia** | Datos abiertos del Estado colombiano — CC BY-SA 4.0 |
 
+Archivo tipo GeoJSON con los polígonos de los 1,121 municipios de Colombia. Propiedades por feature:
+
+| Propiedad | Descripción | Ejemplo |
+|---|---|---|
+| `DPTOMPIO` | Código concatenado depto+municipio (5 dígitos) | `05001` |
+| `DPTO_CCDGO` | Código departamento (2 dígitos) | `05` |
+| `MPIO_CCDGO` | Código municipio (3 dígitos) | `001` |
+| `MPIO_CNMBR` | Nombre del municipio | `MEDELLÍN` |
+| `MPIO_CCNCT` | Código concatenado (igual a DPTOMPIO) | `05001` |
+
+**Join recomendado**: `DIVIPOLA` del CSV ↔ `DPTOMPIO` del GeoJSON.
 ---
 
-## Proceso de construcción del dataset
+## 🔬 Proceso de modelado y limpieza
 
 ### Dataset de emergencias (UNGRD)
 
@@ -180,10 +192,168 @@ La construcción del consolidado de emergencias 1998–2024 requirió resolver m
 6. Eliminación de columnas vacías en la totalidad del período consolidado.
 7. Aplicación de técnicas de *data wrangling* y *data cleaning* sobre el dataset unificado.
 
-**Resultado:** 72.807 registros × 45 columnas para el período 1998–2024.
+**Resultado de unificación:** 72.807 registros × 45 columnas para el período 1998–2024, de todo tipo de emergencias (incendios forestales, sismos, deslizamientos, accidentes, etc.) entre 1998 y 2024.
 
 > **Nota sobre 2023–2024:** A partir del año 2023, la UNGRD modificó el esquema de reporte de los recursos de Asistencia Humanitaria de Emergencia (AHE). El nuevo formato desglosa la ayuda por ítem físico (kits de alimento, kits de aseo, colchonetas, carpas, etc.) en lugar de las categorías resumidas presentes en años anteriores (`AP.ALIMENT.`, `SUBSIDIO DE ARRIENDO`, `MATERIALES CONSTRUCCION`, etc.). Como consecuencia, **dichas columnas de recursos se encuentran vacías para los años 2023 y 2024**. La única variable de recursos disponible para ese período es `RECURSOS EJECUTADOS`, que corresponde al valor total del apoyo del FNGRD por evento.
 
+### Limpieza general
+- **Eliminación de columnas vacías**: se removió la columna `RUD` (99.9% nula) y `COMENTARIOS` (texto libre no estructurado con caracteres que truncan la lectura como saltos de linea, separadores de columna, etc).
+- **Normalización de texto**: departamentos, municipios y tipos de evento normalizados a mayúsculas, con limpieza de espacios y valores nulos, en el caso de los municipios, los nombres se estandarizaron a lo reportado por el DANE (Ej. Santa fe de Bogota -> Bogotá)
+- **Código DIVIPOLA como texto**: se preservan los ceros a la izquierda del código municipal (5 dígitos, estándar DANE). Ejemplo: `05001` (Medellín), no `5001`.
+- **Eliminación de duplicados**: se removieron 80 registros duplicados (mismos datos para el evento).
+- **Columna multilínea corregida**: `HORAS MAQUINA\nRETROEXCAVADORA\nBULLDOCER\nINTERVENTORIA` normalizada a nombre de una sola línea.
+- **Columnas derivadas**: se agregaron `AÑO` y `MES` a partir de la columna `FECHA` para facilitar análisis temporal.
+
+### Filtrado de eventos de riesgo hídrico
+
+Se seleccionaron 4 tipos de evento según la clasificación técnica de la UNGRD:
+
+| Evento en el dataset | Mecanismo físico | Registros |
+|---|---|---:|
+| `INUNDACION` | Desbordamiento lento o progresivo de cuerpos de agua sobre terrenos planos | 15,434 |
+| `CRECIENTE SUBITA` | Subida brusca de caudal en ríos o quebradas | 1,427 |
+| `TEMPORAL` | Lluvias prolongadas con encharcamiento o inundación gradual | 484 |
+| `AVENIDA TORRENCIAL` | Flujo súbito y violento de agua con sedimentos y escombros por cauce encajonado | 483 |
+| **Total** | | **17,828** |
+
+Se unificaron variantes de escritura: `INUNDACIÓN`, `INUNDACIoN` → `INUNDACION`; `CRECIENTE SÚBITA` → `CRECIENTE SUBITA`.
+
+> **Nota**: Se eliminaron las columnas que no aportaban datos al análisis, por estar vacias o conteneder errores de lectura.
+
+---
+
+## 📊 Estructura del dataset modelado
+
+**Formato**: CSV con separador `;` (punto y coma) · **Encoding**: UTF-8 con BOM · **Registros**: 17,828 filas × 45 columnas
+
+### Columnas de identificación
+
+| Columna | Tipo | % datos | Descripción |
+|---|---|---:|---|
+| `FECHA` | texto (dd/mm/aaaa) | 100% | Fecha del evento |
+| `DEPARTAMENTO` | texto | 100% | Departamento (mayúsculas) |
+| `MUNICIPIO` | texto | 100% | Municipio (mayúsculas) |
+| `EVENTO` | texto | 100% | Tipo de evento: `INUNDACION`, `CRECIENTE SUBITA`, `TEMPORAL`, `AVENIDA TORRENCIAL` |
+| `CODIFICACIÓN SEGUN DIVIPOLA` | texto | 100% | Código DIVIPOLA del municipio (5 dígitos con ceros a la izquierda) |
+| `DIVIPOLA` | texto | 98% | Código DIVIPOLA (campo complementario) |
+| `AÑO` | numérico | 99% | Año extraído de FECHA |
+| `MES` | numérico | 99% | Mes extraído de FECHA (1–12) |
+
+### Columnas de afectación a personas
+
+| Columna | Tipo | % datos | Descripción |
+|---|---|---:|---|
+| `MUERTOS` | numérico | 5.4% | Número de fallecidos |
+| `HERIDOS` | numérico | 4.0% | Número de heridos |
+| `DESAPA.` | numérico | 3.3% | Número de desaparecidos |
+| `PERSONAS` | numérico | 71.7% | Personas afectadas |
+| `FAMILIAS` | numérico | 71.5% | Familias afectadas |
+
+### Columnas de daños a infraestructura
+
+| Columna | Tipo | % datos | Descripción |
+|---|---|---:|---|
+| `VIV.DESTRU.` | numérico | 12.5% | Viviendas destruidas |
+| `VIV.AVER.` | numérico | 51.6% | Viviendas averiadas |
+| `VIAS` | numérico | 13.3% | Vías afectadas |
+| `PTES.VEHIC.` | numérico | 7.0% | Puentes vehiculares afectados |
+| `PTES.PEAT.` | numérico | 5.1% | Puentes peatonales afectados |
+| `ACUED.` | numérico | 7.5% | Acueductos afectados |
+| `ALCANT.` | numérico | 4.8% | Alcantarillados afectados |
+| `C. SALUD` | numérico | 3.5% | Centros de salud afectados |
+| `C.EDUCAT.` | numérico | 6.9% | Centros educativos afectados |
+| `C.COMUNIT.` | numérico | 4.1% | Centros comunitarios afectados |
+| `HECTAREAS` | numérico | 8.1% | Hectáreas afectadas |
+
+### Columnas de respuesta institucional
+
+| Columna | % datos | Descripción |
+|---|---:|---|
+| `SUBSIDIO DE ARRIENDO` | 42.7% | Subsidios de arriendo otorgados |
+| `ASISTENCIA NO ALIMENTARIA` | 69.1% | Kits no alimentarios entregados |
+| `AP.ALIMENT.` | 69.1% | Ayudas alimentarias entregadas |
+| `MATERIALES CONSTRUCCION` | 69.1% | Materiales de construcción entregados |
+| `SACOS - BIGBAG` | 69.1% | Sacos de arena / bigbags entregados |
+| `OBRAS DE EMERGENCIA` | 27.0% | Obras de emergencia ejecutadas |
+| `CARROTANQUES - MOTOBOMBAS-PLANTA POTABILIZADORA` | 26.4% | Equipos de agua desplegados |
+| `HORAS MAQUINA RETROEXCAVADORA BULLDOCER INTERVENTORIA` | 26.4% | Horas máquina utilizadas |
+| `APOYO AEREO / TERRESTRE` | 29.9% | Apoyo logístico desplegado |
+| `FIC / TRANSFERENCIAS ECONOMICAS` | 42.8% | Transferencias económicas realizadas |
+| `RECURSOS EJECUTADOS` | 52.1% | Recursos financieros ejecutados |
+| `TRAMITE ANTE UNGRD` | 57.2% | Estado del trámite ante la UNGRD |
+| `ATENDIDO` | 49.8% | Indicador de atención |
+
+---
+
+## 📈 Estadísticas descriptivas
+
+### Distribución temporal
+
+| Indicador | Valor |
+|---|---|
+| Período cubierto | 1998–2024 (27 años) |
+| Total de eventos | 17,828 |
+| Promedio anual | ~660 eventos |
+| Año más crítico | **2011** — 1,683 eventos (fenómeno de La Niña) |
+| Año con menos eventos | **2001** — 104 eventos |
+
+### Estacionalidad mensual (bimodal)
+
+```
+Ene ▓░░░░░░░░░░░░░░░░░                           458
+Feb ▓▓░░░░░░░░░░░░░░░░░░░                         669
+Mar ▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░              1,173
+Abr ▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   2,137
+May ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2,791  ← pico 1
+Jun ▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        1,864
+Jul ▓▓▓▓░░░░░░░░░░░░░░░░░░░                     1,117
+Ago ▓▓▓░░░░░░░░░░░░░░░░░░                         889
+Sep ▓▓▓░░░░░░░░░░░░░░░░░░                         892
+Oct ▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       1,965
+Nov ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2,737  ← pico 2
+Dic ▓▓▓░░░░░░░░░░░░░░░░░░░░                       995
+```
+
+La distribución bimodal corresponde a las dos temporadas de lluvias de Colombia: **abril-mayo** (primera) y **octubre-noviembre** (segunda).
+
+### Top 10 departamentos más afectados
+
+| # | Departamento | Eventos |
+|---|---|---:|
+| 1 | Cundinamarca | 1,640 |
+| 2 | Antioquia | 1,541 |
+| 3 | Santander | 1,093 |
+| 4 | Valle del Cauca | 911 |
+| 5 | Cauca | 858 |
+| 6 | Chocó | 824 |
+| 7 | Tolima | 808 |
+| 8 | Bolívar | 772 |
+| 9 | Meta | 737 |
+| 10 | Huila | 669 |
+
+---
+
+## ⚙️ Uso rápido
+
+```python
+import pandas as pd
+
+# Cargar dataset (separador ; y encoding UTF-8 BOM)
+df = pd.read_csv('CONSOLIDADO_EMERGENCIAS_1998-2024.csv',
+                 sep=';', encoding='utf-8-sig',
+                 dtype={'DIVIPOLA': str, 'CODIFICACIÓN SEGUN DIVIPOLA': str},
+                 low_memory=False)
+
+# Filtrar solo inundaciones progresivas
+inundaciones = df[df['EVENTO'] == 'INUNDACION']
+
+# Agrupar por departamento y año
+resumen = df.groupby(['DEPARTAMENTO', 'AÑO']).agg(
+    eventos=('EVENTO', 'size'),
+    personas=('PERSONAS', 'sum'),
+    fallecidos=('MUERTOS', 'sum')
+).reset_index()
+```
 ---
 
 ## Advertencias sobre calidad y uso de los datos
@@ -217,7 +387,7 @@ La UNGRD distingue técnicamente entre fenómenos que coloquialmente pueden deno
 | `CRECIENTE SUBITA` / `CRECIENTE SÚBITA` | Subida brusca de caudal en ríos o quebradas | ~1.100 |
 | `TEMPORAL` | Lluvias prolongadas con encharcamiento o inundación gradual | ~486 |
 
-Dependiendo del marco conceptual del análisis, estos eventos pueden tratarse de forma diferenciada (mecanismos físicos distintos, niveles de destrucción diferentes) o agrupados bajo un criterio de **riesgo hídrico general**. Se recomienda documentar y justificar explícitamente la decisión adoptada en cada estudio.
+Dependiendo del marco conceptual del análisis, estos eventos pueden tratarse de forma diferenciada (mecanismos físicos distintos, niveles de destrucción diferentes) o agrupados bajo un criterio de **riesgo hídrico general**. 
 
 ---
 
