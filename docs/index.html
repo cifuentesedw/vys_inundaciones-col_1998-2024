@@ -22,7 +22,7 @@ body{font-family:'DM Sans',sans-serif;background:#060b18;color:#c8d6e5;overflow:
 }
 .header-left h1{
   font-size:19px;font-weight:700;letter-spacing:-0.3px;
-  background:linear-gradient(135deg,#56d4f5 0%,#00acc1 60%,#00838f 100%);
+  background:linear-gradient(135deg,#f9a825 0%,#ef6c00 60%,#b71c1c 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
 .header-left .sub{font-size:10.5px;color:#546e7a;letter-spacing:0.8px;text-transform:uppercase;margin-top:1px;}
@@ -124,7 +124,7 @@ body{font-family:'DM Sans',sans-serif;background:#060b18;color:#c8d6e5;overflow:
 .slider-row .play-btn:hover{background:rgba(86,212,245,0.12);border-color:#56d4f5;}
 input[type=range]{
   -webkit-appearance:none;height:3px;border-radius:2px;outline:none;cursor:pointer;
-  background:linear-gradient(90deg,#0d47a1,#00838f,#56d4f5,#ffb74d,#ef5350);
+  background:linear-gradient(90deg,#7a6100,#f9a825,#ff8f00,#ef6c00,#b71c1c);
 }
 input[type=range]::-webkit-slider-thumb{
   -webkit-appearance:none;width:16px;height:16px;background:#56d4f5;border-radius:50%;cursor:pointer;
@@ -169,8 +169,8 @@ input[type=range]::-moz-range-thumb{
 <!-- Barra superior: título del proyecto y badge del período seleccionado -->
 <div class="header">
   <div class="header-left">
-    <h1>🌊 Riesgo Hídrico en Colombia</h1>
-    <div class="sub">Inundaciones · Crecientes súbitas · Avenidas torrenciales · Temporales · UNGRD 1998–2024</div>
+    <h1>🌊 Inundaciones en Colombia</h1>
+    <div class="sub">Inundaciones · UNGRD 1998–2024</div>
   </div>
   <div class="period-badge">
     <div class="yr" id="badge-yr">1998–2024</div>
@@ -186,14 +186,6 @@ input[type=range]::-moz-range-thumb{
   <div class="scard"><div class="lab">Municipios</div><div class="val green" id="st-mu">-</div></div>
 </div>
 
-<!-- Panel de breakdown por tipo de evento hídrico -->
-<div class="breakdown" id="breakdown">
-  <div class="title">Tipo de evento</div>
-  <div class="brow"><span class="blabel">Inundación</span><div class="bbar-bg"><div class="bbar" id="bb-in" style="background:#0288d1;width:0"></div></div><span class="bcount" id="bc-in">-</span></div>
-  <div class="brow"><span class="blabel">Crec. súbita</span><div class="bbar-bg"><div class="bbar" id="bb-cs" style="background:#f9a825;width:0"></div></div><span class="bcount" id="bc-cs">-</span></div>
-  <div class="brow"><span class="blabel">Temporal</span><div class="bbar-bg"><div class="bbar" id="bb-te" style="background:#66bb6a;width:0"></div></div><span class="bcount" id="bc-te">-</span></div>
-  <div class="brow"><span class="blabel">Av. torrencial</span><div class="bbar-bg"><div class="bbar" id="bb-at" style="background:#ef5350;width:0"></div></div><span class="bcount" id="bc-at">-</span></div>
-</div>
 
 <!-- Sparkline mensual: muestra los 12 meses como barras clicables -->
 <div class="sparkline-panel">
@@ -214,7 +206,7 @@ input[type=range]::-moz-range-thumb{
 
 <!-- Leyenda: escala de color dinámica que se ajusta al rango del período -->
 <div class="legend">
-  <div class="lt">Eventos de riesgo hídrico</div>
+  <div class="lt">Eventos de inundación</div>
   <div id="legend-items"></div>
 </div>
 
@@ -279,13 +271,13 @@ let curY = 0, curM = 0;
 function getColor(v, mx) {
   if (!v || v===0) return 'transparent';
   const r = Math.min(v/Math.max(mx,1),1);
-  if(r<=0.04) return '#0a1929';   // Azul muy oscuro (1-2 eventos)
-  if(r<=0.10) return '#0d47a1';   // Azul profundo
-  if(r<=0.20) return '#0277bd';   // Azul medio
-  if(r<=0.35) return '#00897b';   // Verde azulado
-  if(r<=0.55) return '#f9a825';   // Amarillo (zona de transición)
-  if(r<=0.75) return '#ef6c00';   // Naranja intenso
-  return '#c62828';               // Rojo (máxima incidencia)
+  if(r<=0.04) return '#4a3800';   // Amarillo muy oscuro (mínima incidencia)
+  if(r<=0.10) return '#7a6100';   // Amarillo oscuro
+  if(r<=0.20) return '#f9a825';   // Amarillo medio
+  if(r<=0.35) return '#ff8f00';   // Ámbar
+  if(r<=0.55) return '#ef6c00';   // Naranja intenso
+  if(r<=0.75) return '#d84315';   // Naranja-rojo
+  return '#b71c1c';               // Rojo oscuro (máxima incidencia)
 }
 
 // Calcula el valor máximo de eventos para una combinación año_mes dada.
@@ -389,20 +381,13 @@ function update(){
   document.getElementById('st-m').textContent=(s.m||0).toLocaleString('es-CO');
   document.getElementById('st-mu').textContent=(s.mu||0).toLocaleString('es-CO');
 
-  // 3. Barras de breakdown por tipo de evento.
-  const ev=EVT[k]||{IN:0,CS:0,TE:0,AT:0};
-  const mx2=Math.max(ev.IN,ev.CS,ev.TE,ev.AT,1);
-  document.getElementById('bb-in').style.width=(ev.IN/mx2*100)+'%'; document.getElementById('bc-in').textContent=ev.IN.toLocaleString('es-CO');
-  document.getElementById('bb-cs').style.width=(ev.CS/mx2*100)+'%'; document.getElementById('bc-cs').textContent=ev.CS.toLocaleString('es-CO');
-  document.getElementById('bb-te').style.width=(ev.TE/mx2*100)+'%'; document.getElementById('bc-te').textContent=ev.TE.toLocaleString('es-CO');
-  document.getElementById('bb-at').style.width=(ev.AT/mx2*100)+'%'; document.getElementById('bc-at').textContent=ev.AT.toLocaleString('es-CO');
 
-  // 4. Leyenda dinámica: se recalculan los umbrales según el máximo actual.
+  // 3. Leyenda dinámica: se recalculan los umbrales según el máximo actual.
   const mxL=getMax(curY,curM);
-  const steps=[[0,'Sin datos','rgba(255,255,255,0.04)'],[Math.max(1,Math.round(mxL*0.04)),null,'#0a1929'],
-    [Math.round(mxL*0.1),null,'#0d47a1'],[Math.round(mxL*0.2),null,'#0277bd'],
-    [Math.round(mxL*0.35),null,'#00897b'],[Math.round(mxL*0.55),null,'#f9a825'],
-    [Math.round(mxL*0.75),null,'#ef6c00'],[mxL,null,'#c62828']];
+  const steps=[[0,'Sin datos','rgba(255,255,255,0.04)'],[Math.max(1,Math.round(mxL*0.04)),null,'#4a3800'],
+    [Math.round(mxL*0.1),null,'#7a6100'],[Math.round(mxL*0.2),null,'#f9a825'],
+    [Math.round(mxL*0.35),null,'#ff8f00'],[Math.round(mxL*0.55),null,'#ef6c00'],
+    [Math.round(mxL*0.75),null,'#d84315'],[mxL,null,'#b71c1c']];
   document.getElementById('legend-items').innerHTML=steps.map(([v,l,c])=>{
     const t=l||(v<=1?'1':'≤ '+v);
     return '<div class="lrow"><div class="lbox" style="background:'+c+'"></div>'+t+'</div>';
