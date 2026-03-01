@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPIs Emergencias Colombia 1998-2024</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #020b12;
+    color: #d4e9f7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .kpi-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+  }
+  .kpi-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+  }
+  .kpi-card {
+    background: #07111a;
+    border: 1px solid #0e2233;
+    border-radius: 6px;
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-width: 160px;
+    max-width: 240px;
+  }
+  .kpi-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #4a7a99;
+    text-transform: uppercase;
+    word-break: break-word;
+    white-space: normal;
+  }
+  .kpi-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  footer {
+    text-align: center;
+    padding: 14px;
+    color: #1a3a55;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-top: 1px solid #0a1e2e;
+  }
+</style>
+</head>
+<body>
+<div class="kpi-container">
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Eventos</div>
+      <div class="kpi-value" style="color:#f5c518;">17,687</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Fallecidos</div>
+      <div class="kpi-value" style="color:#e63946;">10,470</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Personas Afectadas</div>
+      <div class="kpi-value" style="color:#00e5a0;">153,216,090</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Viviendas Afectadas</div>
+      <div class="kpi-value" style="color:#3a9eca;">11,982,190</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Dptos. Afectados</div>
+      <div class="kpi-value" style="color:#a78bfa;">46</div>
+    </div>
+  </div>
+</div>
+<footer>Datos UNGRD Colombia · Generado con Python + Plotly</footer>
+</body>
+</html>
