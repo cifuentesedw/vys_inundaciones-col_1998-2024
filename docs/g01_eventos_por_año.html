@@ -3,46 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eventos por Año</title>
+
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     background: #020b12;
     color: #d4e9f7;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
   }
-  .chart-container {
-    flex: 1;
-    padding: 20px 28px;
-    display: flex;
-    flex-direction: column;
-  }
+
   .chart-wrapper {
-    flex: 1;
+    width: 100%;
+    height: 100%;
     background: #07111a;
     border: 1px solid #0e2233;
     border-radius: 6px;
-    overflow: hidden;
-    min-height: 520px;
+    overflow: hidden !important;
   }
+
   .chart-wrapper > div {
     width: 100% !important;
     height: 100% !important;
-    min-height: 520px;
+    min-height: unset !important;
   }
 </style>
 </head>
 
 <body>
-<div class="chart-container">
-  <div class="chart-wrapper">
-    <div id="chart"></div>
-  </div>
+
+<div class="chart-wrapper">
+  <div id="chart"></div>
 </div>
 
 <script>
@@ -68,8 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showgrid: false,
       zeroline: false,
       tickfont: { color: "#d4e9f7" },
-      linecolor: "#d4e9f7",
-      automargin: false
+      linecolor: "#d4e9f7"
     },
 
     yaxis: {
@@ -77,8 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showgrid: false,
       zeroline: false,
       tickfont: { color: "#d4e9f7" },
-      linecolor: "#d4e9f7",
-      automargin: false
+      linecolor: "#d4e9f7"
     },
 
     margin: { l: 50, r: 20, t: 40, b: 40 },
@@ -96,14 +92,12 @@ document.addEventListener("DOMContentLoaded", function () {
     displaylogo: false
   });
 
-  // 🔥 Sobrescribe el template y elimina TODAS las líneas
+  // Limpieza total de líneas y grids
   Plotly.relayout("chart", {
     "xaxis.showgrid": false,
     "xaxis.zeroline": false,
-    "xaxis.gridcolor": "transparent",
     "yaxis.showgrid": false,
-    "yaxis.zeroline": false,
-    "yaxis.gridcolor": "transparent"
+    "yaxis.zeroline": false
   });
 
 });
