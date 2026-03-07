@@ -4,125 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Familias vs Viviendas Afectadas</title>
-
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    background: #020b12;
-    color: #d4e9f7;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .chart-wrapper {
-    background: #07111a;
-    border: 1px solid #0e2233;
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    overflow: hidden !important;
-  }
-
-  .chart-wrapper > div {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: unset !important;
-  }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #ffffff; }
+  #chart { width: 100vw; height: 100vh; }
+  #chart > div { width: 100% !important; height: 100% !important; }
 </style>
 </head>
-
 <body>
-
-<div class="chart-wrapper">
-  <div id="chart"></div>
-</div>
-
-<script>
-Plotly.newPlot(
-  "chart",
-  [
-    {
-      hovertemplate:
-        "<b>%{text}</b><br>Familias afectadas: %{x:,}<br>Viviendas afectadas: %{y:,}<extra></extra>",
-      marker: {
-        color: [200,600,140,50,60,2470,240,450,240,730,340,20,540,450,300,60,190,120,430,70,310,370],
-        colorscale: [
-          [0, "#0a3a5c"],
-          [0.5, "#e63946"],
-          [1.0, "#f5c518"]
-        ],
-        colorbar: {
-          len: 0.6,
-          thickness: 14,
-          tickfont: { color: "#d4e9f7", size: 10 },
-          title: { text: "Fallecidos", font: { color: "#d4e9f7", size: 11 } }
-        },
-        line: { color: "#0f1923", width: 1 },
-        opacity: 0.85,
-        size: [
-          90,83.47,60.07,48.28,43.49,42.65,40.77,31.24,30.31,29.26,
-          28.97,28.23,27.10,25.61,23.39,19.47,18.62,18.08,17.83,17.44,
-          17.39,17.27
-        ]
-      },
-      mode: "markers+text",
-      showlegend: false,
-      text: [
-        "Bolívar","Chocó","Magdalena","Córdoba","Sucre","Antioquia","Cesar",
-        "Cauca","La Guajira","Santander","Putumayo","Choco","Nariño",
-        "Valle Del Cauca","Atlántico","Arauca","Boyacá","Casanare","Meta",
-        "Bolivar","Norte De Santander","Tolima"
-      ],
-      textfont: { color: "#d4e9f7", size: 9 },
-      textposition: "top center",
-      x: [
-        4436910,4185250,2745620,2183260,1918320,1944610,1668110,1337270,
-        1247350,1090430,1098010,1382430,1039280,878660,749960,611860,
-        459430,459350,504270,776520,426980,403610
-      ],
-      y: [
-        729390,1069570,1055590,674320,624750,777740,531400,399050,437020,
-        492690,240010,506140,467920,454320,445400,158320,197630,174750,
-        217140,291890,264660,221130
-      ],
-      type: "scatter"
-    }
-  ],
-  {
-    font: { color: "#d4e9f7", size: 12, family: "'Segoe UI', Arial, sans-serif" },
-    margin: { l: 60, r: 90, t: 80, b: 60 },
-    xaxis: {
-      title: { text: "Total Familias Afectadas" },
-      gridcolor: "#0e2233",
-      zerolinecolor: "#0e2233"
-    },
-    yaxis: {
-      title: { text: "Total Viviendas Afectadas" },
-      gridcolor: "#0e2233",
-      zerolinecolor: "#0e2233"
-    },
-    title: {
-      text:
-        "🫧 Familias vs Viviendas Afectadas por Departamento<br><sup>Tamaño = personas afectadas · Color = fallecidos</sup>",
-      font: { color: "#ffffff", size: 15 },
-      x: 0.05
-    },
-    paper_bgcolor: "#07111a",
-    plot_bgcolor: "#050d14"
-  },
-  {
-    responsive: true,
-    displayModeBar: true,
-    modeBarButtonsToRemove: ["select2d", "lasso2d"],
-    displaylogo: false
-  }
-);
-</script>
-
+<div id="chart"><div>                            <div id="870e2337-030d-46fc-bed6-a4228e925c78" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("870e2337-030d-46fc-bed6-a4228e925c78")) {                    Plotly.newPlot(                        "870e2337-030d-46fc-bed6-a4228e925c78",                        [{"customdata":[[4436910.0,729390.0],[4185250.0,1069570.0],[2745620.0,1055590.0],[2183260.0,674320.0],[1918320.0,624750.0],[1944610.0,777740.0],[1668110.0,531400.0],[1337270.0,399050.0],[1247350.0,437020.0],[1090430.0,492690.0],[1098010.0,240010.0],[1382430.0,506140.0],[1039280.0,467920.0],[878660.0,454320.0],[749960.0,445400.0],[611860.0,158320.0],[459430.0,197630.0],[459350.0,174750.0],[504270.0,217140.0],[776520.0,291890.0],[426980.0,264660.0],[403610.0,221130.0]],"hovertemplate":"\u003cb\u003e%{text}\u003c\u002fb\u003e\u003cbr\u003eFamilias afectadas: %{customdata[0]:,}\u003cbr\u003eViviendas afectadas: %{customdata[1]:,}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":[200.0,600.0,140.0,50.0,60.0,2470.0,240.0,450.0,240.0,730.0,340.0,20.0,540.0,450.0,300.0,60.0,190.0,120.0,430.0,70.0,310.0,370.0],"colorbar":{"len":0.6,"thickness":14,"tickfont":{"color":"#1a2b3c","size":11},"title":{"font":{"color":"#1a2b3c","size":12},"text":"Fallecidos"}},"colorscale":[[0,"#cce4f7"],[0.4,"#1e6fa5"],[0.75,"#c0392b"],[1.0,"#d4860b"]],"line":{"color":"#b0c8dc","width":1},"opacity":0.85,"showscale":true,"size":[82.0,76.29299745089219,55.8168307758951,45.50184102230886,41.311640925676016,40.577364589060494,38.925842621749055,30.58746105529731,29.773412638909715,28.858632811849183,28.603455457256626,27.95448259775745,26.964362473134404,25.662318188633975,23.71779877043035,20.29043168224455,19.550990486663,19.074124056580196,18.851835191016477,18.510221422502124,18.469768914213358,18.361706735975744]},"mode":"markers+text","showlegend":false,"text":["Bolívar","Chocó","Magdalena","Córdoba","Sucre","Antioquia","Cesar","Cauca","La Guajira","Santander","Putumayo","Choco","Nariño","Valle Del Cauca","Atlántico","Arauca","Boyacá","Casanare","Meta","Bolivar","Norte De Santander","Tolima"],"textfont":{"color":"#1a2b3c","size":12},"textposition":["top right","top right","top right","top right","top right","top right","top right","bottom right","bottom right","top left","bottom right","top right","top left","top left","bottom left","bottom left","top left","top right","bottom right","top center","bottom center","top center"],"x":[4436910.0,4185250.0,2745620.0,2183260.0,1918320.0,1944610.0,1668110.0,1337270.0,1247350.0,1090430.0,1098010.0,1382430.0,1039280.0,878660.0,749960.0,584027.2899357525,559418.9406626611,510816.81201812206,526156.9407559336,700209.2832982725,350663.93236124504,305572.8379832603],"y":[729390.0,1069570.0,1055590.0,674320.0,624750.0,777740.0,531400.0,399050.0,437020.0,492690.0,240010.0,506140.0,467920.0,454320.0,445400.0,177902.55101182486,203037.47915550918,185877.40935166582,191501.57787819806,317020.07402884524,282438.53376604535,205746.3271304082],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"text":""},"font":{"color":"#1a2b3c","size":13,"family":"'Segoe UI', Arial, sans-serif"},"margin":{"l":60,"r":90,"t":20,"b":60},"xaxis":{"title":{"text":"Total Familias Afectadas","font":{"size":13}},"gridcolor":"#dce8f0","zerolinecolor":"#dce8f0"},"yaxis":{"title":{"text":"Total Viviendas Afectadas","font":{"size":13}},"gridcolor":"#dce8f0","zerolinecolor":"#dce8f0"},"paper_bgcolor":"#ffffff","plot_bgcolor":"#f4f7fb"},                        {"responsive": true, "displayModeBar": false, "displaylogo": false}                    )                };                            </script>        </div></div>
 </body>
 </html>
