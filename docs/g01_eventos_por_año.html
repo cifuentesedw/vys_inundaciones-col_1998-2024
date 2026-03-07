@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
       showgrid: false,
       zeroline: false,
       tickfont: { color: "#d4e9f7" },
-      linecolor: "#d4e9f7"
+      linecolor: "#d4e9f7",
+      automargin: false
     },
 
     yaxis: {
@@ -85,10 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
       showgrid: false,
       zeroline: false,
       tickfont: { color: "#d4e9f7" },
-      linecolor: "#d4e9f7"
+      linecolor: "#d4e9f7",
+      automargin: false
     },
 
-    margin: { l: 60, r: 30, t: 70, b: 60 },
+    margin: { l: 50, r: 20, t: 40, b: 40 },
+
     title: {
       text: "📈 Eventos Registrados por Año (1998–2024)",
       font: { color: "#ffffff", size: 15 }
@@ -102,8 +105,19 @@ document.addEventListener("DOMContentLoaded", function () {
     displaylogo: false
   });
 
+  // 🔥 Sobrescribe el template y elimina TODAS las líneas
+  Plotly.relayout("chart", {
+    "xaxis.showgrid": false,
+    "xaxis.zeroline": false,
+    "xaxis.gridcolor": "transparent",
+    "yaxis.showgrid": false,
+    "yaxis.zeroline": false,
+    "yaxis.gridcolor": "transparent"
+  });
+
 });
 </script>
 
+<footer>Datos UNGRD Colombia · Generado con Python + Plotly</footer>
 </body>
 </html>
